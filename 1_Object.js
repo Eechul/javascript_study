@@ -74,3 +74,59 @@ another_stooge.profession // <- 'actor'
 // *프로토타입 체인은 뒤에 장에
 
 // 1-6 리플렉션(reflection)
+// *변수의 타입을 체크하고 객체의 구조를 탐색하는 과정을 리플렉션 이라고 한다.
+typeof flight.number
+// 'number' or 'string' or 'object' or 'undefined'
+typeof flight.toString
+// 'function'
+// 이와같이 프로토타입 체인 상에 있는 속성을
+// 반환할 수 있기 때문에 조심
+
+flight.hasOwnProperty('number') // true
+flight.hasOwnProperty('constructor') // false
+// hasOwnProperty 메소드를 이용하는 방법
+// 객체에 특정 속성이 있는지를 true, false 로 알려줌,
+// 프로토타입 체인은 바라보지 않기 때문에 구별 가능
+
+// 1-7 열거(Enumeration)
+// for in 구분으로 속성 이름들을 열거
+var name;
+for(name in another_stooge) {
+  if(typeof another_stooge[name] !== 'function') {
+    document.writeln(name + ': ' + another_stooge[name])
+  }
+}
+// 속성 순서를 정해서 열거하는 방법
+var properties = [
+  'first-name',
+  'middle-name',
+  'last-name',
+  'profession'
+];
+for(var i=0; i<properties.length; i++){
+  document.writeln(name + ': ' + another_stooge[name])
+}
+
+// 1-8 삭제
+// delete 연산자를 이용하여 객체의 특정 속성을 삭제함
+// 삭제 역시 프로토타입 연결 상엔 접근 안함
+delete another_stooge.nickname
+// another_stooge 객체의 nickname 프로퍼티(속성) 삭제
+// 만약, nickname 속성과 nickname '프로토타입'의 속성이 존재한다면
+// 속성으로서의 nickname은 지워지고 프로토타입 속성으로서의 nickname은 남음
+
+// 1-9 최소한의 전역변수 사용
+// 자바스크립트는 전역변수를 쓴다고 보면됨 => 유연성 약화
+// 해결책
+var MYAPP = {} // 빈 객체 생성
+
+MYAPP.stooge = {
+  // ... 속성과 속성값들
+}
+
+MYAPP.flight = {
+  // ... 속성과 속성값들
+}
+// MYAPP 이란 변수를 다른 전역변수를 위한 컨테이너로 사용하기
+// 애플리케이션이나 위젯 또는 라이브러리 연동시 문제점 최소화
+// 가독성 뛰어남
