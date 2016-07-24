@@ -7,12 +7,45 @@ var add = function(a,b) {
 
 // 2-2 호출
 // 1) 메소드 호출 패턴
-
+var MyObject  {
+  value: 0,
+  increment: function (inc) {
+    this.value += typeof inc === 'number' ? inc : 1;
+  },
+  getValue: function() {
+    return this.value
+  }
+}
+MyObject.increment( )
+document.writeln(MyObject.value) // 1
+MyObject.increment(2)
+document.writeln(MyObject.value) // 3
 // 2) 함수 호출 패턴
-
-// 3) 생성자 호출 패턴
-
-// 4) apply 호출 패턴
+MyObject.double = function ( ) {
+  var that = this
+  var helper = function( ) {
+    that.value = add(that.value, that.value)
+  }
+  helper( );
+}
+MyObject.double();
+document.writeln(MyObject.getValue( )) // 6
+// 3) 생성자 호출 패턴 [권장하지 않는다고 함]
+var Quo = function(string) {
+  this.status = string
+}
+Quo.prototype.get_status = function( ) {
+  return this.status
+}
+var myQuo = new Quo("confused")
+document.writeln(myQuo.get_status());
+// 4) apply 호출 패턴 [apply == call]
+var array = [3,4];
+var sum = add.apply(null, array); // sum은 7
+var statusObject = {
+  status: 'A-OK'
+}
+var status = Quo.prototype.get_status.apply(statusObject)
 
 
 // 2-3 인수 배열 arguments
